@@ -1,6 +1,10 @@
 package com.kuby.di
 
+import com.kuby.data.repository.PermisoDataSourceImpl
+import com.kuby.data.repository.RolDataSourceImpl
 import com.kuby.data.repository.UserDataSourceImpl
+import com.kuby.domain.repository.PermisoDataSource
+import com.kuby.domain.repository.RolDataSource
 import com.kuby.domain.repository.UserDataSource
 import com.kuby.util.Constants.DATABASE_NAME
 import org.koin.dsl.module
@@ -15,7 +19,7 @@ val KoinModule = module {
             .getDatabase(DATABASE_NAME)
     }
 
-    single<UserDataSource> {
-        UserDataSourceImpl(get())
-    }
+    single<UserDataSource> { UserDataSourceImpl(get()) }
+    single<RolDataSource> { RolDataSourceImpl(get()) }
+    single<PermisoDataSource> { PermisoDataSourceImpl(get()) }
 }
