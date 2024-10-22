@@ -5,11 +5,8 @@ import com.kuby.domain.model.Permiso
 import com.kuby.domain.model.Rol
 import com.kuby.domain.repository.PermisoDataSource
 import com.kuby.domain.repository.RolDataSource
-import com.kuby.domain.repository.UserDataSource
 import kotlinx.coroutines.runBlocking
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
-import org.koin.ktor.ext.inject
 import java.time.LocalDateTime
 
 fun initializeDefaultRolesAndPermissions() = runBlocking {

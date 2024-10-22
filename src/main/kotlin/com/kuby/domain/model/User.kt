@@ -14,8 +14,8 @@ data class User(
     val createdAt: LocalDateTime?= null,
     @Serializable(with = LocalDateTimeSerializer::class)
     val updatedAt: LocalDateTime?= null,
-    val notificationToken: String ?= null,
     val emailAddress: String? = null,
     val password: String? = null,
-    val profilePhoto: String? = null
+    val profilePhoto: String? = null,
+    val permisos: List<String> = listOf()
 )
