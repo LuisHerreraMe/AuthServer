@@ -2,7 +2,7 @@ package com.kuby.plugins
 
 import com.kuby.domain.model.EndPoint
 import com.kuby.domain.repository.UserDataSource
-import com.kuby.routes.*
+import com.kuby.routes.user.*
 import com.kuby.service.JwtService
 import io.ktor.server.application.*
 import io.ktor.server.routing.*

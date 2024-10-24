@@ -51,4 +51,7 @@ dependencies {
     implementation("io.insert-koin:koin-core:$koinVersion")
     implementation("io.insert-koin:koin-ktor:$koinVersion")
     implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
+
+    // Dependencia CORS
+    implementation("io.ktor:ktor-server-cors:2.0.0")
 }

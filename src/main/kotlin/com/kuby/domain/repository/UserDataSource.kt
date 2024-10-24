@@ -14,4 +14,7 @@ interface UserDataSource {
         updatedAt: LocalDateTime,
         profilePhoto: String
     ): Boolean
+    suspend fun addPermission(rolId: String, permisoId: String): Boolean
+    suspend fun removePermission(rolId: String, permisoId: String): Boolean
+    suspend fun updatePermissions(rolId: String, NewPermissions: List<String>): Boolean
 }

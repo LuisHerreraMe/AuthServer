@@ -1,11 +1,9 @@
-package com.kuby.routes
+package com.kuby.routes.user
 
-import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
 import com.kuby.domain.model.EndPoint
 import com.kuby.domain.model.User
 import com.kuby.domain.repository.UserDataSource
-import com.kuby.util.LocalDateTimeSerializer
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -14,10 +12,8 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
-import kotlinx.serialization.Serializable
 import java.lang.Exception
 import java.time.LocalDateTime
-import java.util.*
 
 fun Route.updateUserRoute(app: Application, userDataSource: UserDataSource) {
 

@@ -1,4 +1,4 @@
-package com.kuby.routes
+package com.kuby.routes.user
 
 import com.kuby.domain.model.*
 import com.kuby.domain.repository.UserDataSource
@@ -39,7 +39,6 @@ fun Route.signUpRoute (
 }
 
 private fun User.toModel(): User =
-
     User(
         id = UUID.randomUUID().toString(),
         emailAddress = this.emailAddress,
@@ -48,7 +47,8 @@ private fun User.toModel(): User =
         phone = this.phone,
         createdAt = LocalDateTime.now(),
         updatedAt = LocalDateTime.now(),
-        password = this.password
+        password = this.password,
+        idRol = this.idRol
     )
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.saveUserToDatabase(
@@ -75,7 +75,6 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.saveUserToDatabase(
                 message = ApiResponse(
                     user = foundUser,
                     token = token
-
                 )
             )
         } ?: call.respond(
@@ -86,7 +85,6 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.saveUserToDatabase(
             )
         )
     } else {
-        // Si el usuario ya existe
         call.respond(
             status = HttpStatusCode.Forbidden,
             message = ApiResponseError(

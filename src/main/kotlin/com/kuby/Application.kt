@@ -1,5 +1,6 @@
 package com.kuby
 
+import com.kuby.plugins.configureCors
 import com.kuby.application.initializeDefaultRolesAndPermissions
 import com.kuby.plugins.*
 import com.kuby.service.JwtService
@@ -13,9 +14,12 @@ fun main(args: Array<String>) {
 
 fun Application.module() {
     val jwtService = JwtService(this)
+    configureCors()
     configureKoin()
     configureSerialization()
     configureSecurity(jwtService)
     configureRouting(jwtService)
     initializeDefaultRolesAndPermissions()
 }
+
+

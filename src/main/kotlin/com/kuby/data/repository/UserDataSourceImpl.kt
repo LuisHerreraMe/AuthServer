@@ -1,8 +1,10 @@
 package com.kuby.data.repository
 
+import com.kuby.domain.model.Rol
 import com.kuby.domain.model.User
 import com.kuby.domain.model.UserUpdate
 import com.kuby.domain.repository.UserDataSource
+import com.mongodb.client.model.Updates
 import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import java.time.LocalDateTime
@@ -52,5 +54,32 @@ class UserDataSourceImpl(
             filter = User::id eq id,
             update = updates
         ).wasAcknowledged()
+    }
+
+    override suspend fun addPermission(rolId: String, permisoId: String): Boolean {
+        val update = Updates.addToSet(Rol::permisos.toString(), permisoId)
+        val result = users.updateOne(
+            filter = Rol::id eq rolId,
+            update = update
+        )
+        return result.modifiedCount > 0
+    }
+
+    override suspend fun removePermission(rolId: String, permisoId: String): Boolean {
+        val update = Updates.pull(Rol::permisos.toString(), permisoId)
+        val result = users.updateOne(
+            filter = Rol::id eq rolId,
+            update = update
+        )
+        return result.modifiedCount > 0
+    }
+
+    override suspend fun updatePermissions(rolId: String, NewPermissions: List<String>): Boolean {
+        val update = setValue(Rol::permisos, NewPermissions)
+        val result = users.updateOne(
+            filter = Rol::id eq rolId,
+            update = update
+        )
+        return result.modifiedCount > 0
     }
 }

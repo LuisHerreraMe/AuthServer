@@ -17,5 +17,5 @@ data class User(
     val emailAddress: String? = null,
     val password: String? = null,
     val profilePhoto: String? = null,
-    val permisos: List<String> = listOf()
+    val idRol: List<String> = listOf()
 )

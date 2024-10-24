@@ -1,6 +1,5 @@
-package com.kuby.routes
+package com.kuby.routes.user
 
-import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.repository.UserDataSource
 import io.ktor.http.*
 import io.ktor.server.application.*
