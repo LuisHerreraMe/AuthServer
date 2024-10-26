@@ -1,6 +1,6 @@
-package com.kuby.domain.repository
+package com.kuby.domain.user.repository
 
-import com.kuby.domain.model.User
+import com.kuby.domain.user.model.User
 import java.time.LocalDateTime
 
 interface UserDataSource {

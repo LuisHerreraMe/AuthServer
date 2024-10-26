@@ -1,6 +1,6 @@
-package com.kuby.domain.repository
+package com.kuby.domain.rol_permiso.repository
 
-import com.kuby.domain.model.Rol
+import com.kuby.domain.rol_permiso.model.Rol
 
 interface RolDataSource {
     suspend fun createRol(rol: Rol): Boolean

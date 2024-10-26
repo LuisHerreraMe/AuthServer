@@ -1,4 +1,4 @@
-package com.kuby.domain.model
+package com.kuby.domain.user.model
 
 import kotlinx.serialization.Serializable
 

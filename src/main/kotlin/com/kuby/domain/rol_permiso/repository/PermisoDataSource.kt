@@ -1,6 +1,6 @@
-package com.kuby.domain.repository
+package com.kuby.domain.rol_permiso.repository
 
-import com.kuby.domain.model.Permiso
+import com.kuby.domain.rol_permiso.model.Permiso
 
 interface PermisoDataSource {
     suspend fun createPermiso(permiso: Permiso): Boolean

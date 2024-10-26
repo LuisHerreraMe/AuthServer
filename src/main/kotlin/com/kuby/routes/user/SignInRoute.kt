@@ -3,8 +3,8 @@ package com.kuby.routes.user
 import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
 import com.kuby.domain.model.EndPoint
-import com.kuby.domain.model.LoginRequest
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.user.model.LoginRequest
+import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.service.JwtService
 import io.ktor.http.*
 import io.ktor.server.application.*

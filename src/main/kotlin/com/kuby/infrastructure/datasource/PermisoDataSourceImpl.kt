@@ -1,7 +1,7 @@
-package com.kuby.data.repository
+package com.kuby.infrastructure.datasource
 
-import com.kuby.domain.model.Permiso
-import com.kuby.domain.repository.PermisoDataSource
+import com.kuby.domain.rol_permiso.model.Permiso
+import com.kuby.domain.rol_permiso.repository.PermisoDataSource
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 

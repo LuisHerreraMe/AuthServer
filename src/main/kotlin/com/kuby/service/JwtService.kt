@@ -3,9 +3,9 @@ package com.kuby.service
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import com.kuby.domain.model.LoginRequest
-import com.kuby.domain.model.User
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.user.model.LoginRequest
+import com.kuby.domain.user.model.User
+import com.kuby.domain.user.repository.UserDataSource
 import io.ktor.server.application.*
 import io.ktor.server.auth.jwt.*
 import kotlinx.coroutines.runBlocking

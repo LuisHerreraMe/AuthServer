@@ -1,8 +1,6 @@
-package com.kuby.domain.model
+package com.kuby.domain.user.model
 
-import com.kuby.util.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
-import java.time.LocalDateTime
 
 @Serializable
 data class UserUpdate(

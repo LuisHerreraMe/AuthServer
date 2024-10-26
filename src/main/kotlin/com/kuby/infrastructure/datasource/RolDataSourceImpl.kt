@@ -1,7 +1,7 @@
-package com.kuby.data.repository
+package com.kuby.infrastructure.datasource
 
-import com.kuby.domain.model.Rol
-import com.kuby.domain.repository.RolDataSource
+import com.kuby.domain.rol_permiso.model.Rol
+import com.kuby.domain.rol_permiso.repository.RolDataSource
 import com.mongodb.client.model.Updates
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq

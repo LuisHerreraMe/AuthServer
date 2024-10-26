@@ -1,9 +1,9 @@
-package com.kuby.data.repository
+package com.kuby.infrastructure.datasource
 
-import com.kuby.domain.model.Rol
-import com.kuby.domain.model.User
-import com.kuby.domain.model.UserUpdate
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.rol_permiso.model.Rol
+import com.kuby.domain.user.model.User
+import com.kuby.domain.user.model.UserUpdate
+import com.kuby.domain.user.repository.UserDataSource
 import com.mongodb.client.model.Updates
 import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -26,7 +26,6 @@ class UserDataSourceImpl(
 
     override suspend fun saveUserInfo(user: User): Boolean {
         val existingUser = users.findOne(filter = User::emailAddress eq user.emailAddress)
-        println("Existing user: $existingUser")
         return if (existingUser == null){
             val result = users.insertOne(document = user)
             result.wasAcknowledged()

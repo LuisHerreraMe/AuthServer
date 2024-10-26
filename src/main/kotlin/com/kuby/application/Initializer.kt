@@ -1,10 +1,10 @@
 package com.kuby.application
 
 
-import com.kuby.domain.model.Permiso
-import com.kuby.domain.model.Rol
-import com.kuby.domain.repository.PermisoDataSource
-import com.kuby.domain.repository.RolDataSource
+import com.kuby.domain.rol_permiso.model.Permiso
+import com.kuby.domain.rol_permiso.model.Rol
+import com.kuby.domain.rol_permiso.repository.PermisoDataSource
+import com.kuby.domain.rol_permiso.repository.RolDataSource
 import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDateTime

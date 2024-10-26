@@ -1,7 +1,9 @@
 package com.kuby.routes.user
 
 import com.kuby.domain.model.*
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.user.model.LoginRequest
+import com.kuby.domain.user.model.User
+import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.service.JwtService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -40,7 +42,6 @@ fun Route.signUpRoute (
 
 private fun User.toModel(): User =
     User(
-        id = UUID.randomUUID().toString(),
         emailAddress = this.emailAddress,
         name = this.name,
         lastName = this.lastName,

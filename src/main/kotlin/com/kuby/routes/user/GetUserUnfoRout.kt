@@ -1,6 +1,6 @@
 package com.kuby.routes.user
 
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.user.repository.UserDataSource
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

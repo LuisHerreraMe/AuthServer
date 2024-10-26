@@ -2,8 +2,8 @@ package com.kuby.routes.user
 
 import com.kuby.domain.model.ApiResponseError
 import com.kuby.domain.model.EndPoint
-import com.kuby.domain.model.User
-import com.kuby.domain.repository.UserDataSource
+import com.kuby.domain.user.model.User
+import com.kuby.domain.user.repository.UserDataSource
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

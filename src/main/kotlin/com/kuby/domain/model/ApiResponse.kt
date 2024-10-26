@@ -1,7 +1,7 @@
 package com.kuby.domain.model
 
+import com.kuby.domain.user.model.User
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
 data class ApiResponse(
