@@ -42,6 +42,7 @@ fun Route.signUpRoute (
 
 private fun User.toModel(): User =
     User(
+        id = UUID.randomUUID().toString(),
         emailAddress = this.emailAddress,
         name = this.name,
         lastName = this.lastName,

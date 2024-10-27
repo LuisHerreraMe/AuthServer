@@ -20,15 +20,15 @@ class PermisoDataSourceImpl(
         }
     }
 
-    override suspend fun getPermisoByName(name: String): Permiso? {
-        return permisosCollection.findOne(Permiso::nombre eq name)
+    override suspend fun getPermisoById(id: String): Permiso? {
+        return permisosCollection.findOne(Permiso::id eq id)
     }
 
-    override suspend fun updatePermisoByName(name: String): Boolean {
+    override suspend fun updatePermiso(id: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deletePermisoByName(name: String): Boolean {
+    override suspend fun deletePermisoById(id: String): Boolean {
         TODO("Not yet implemented")
     }
 }

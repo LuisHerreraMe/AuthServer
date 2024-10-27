@@ -31,7 +31,7 @@ fun initializeDefaultRolesAndPermissions() = runBlocking {
             descripcion = "Administrator with full access",
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now(),
-            permisos = permisos.map { it.id }
+            idPermisos = permisos.map { it.id }
         ),
         Rol(
             nombre = "USER",

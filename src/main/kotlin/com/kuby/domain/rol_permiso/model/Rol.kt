@@ -14,5 +14,5 @@ data class Rol(
     val createdAt: LocalDateTime?= null,
     @Serializable(with = LocalDateTimeSerializer::class)
     val updatedAt: LocalDateTime?= null,
-    val permisos: List<String> = listOf()
+    val idPermisos: List<String> = listOf()
 )

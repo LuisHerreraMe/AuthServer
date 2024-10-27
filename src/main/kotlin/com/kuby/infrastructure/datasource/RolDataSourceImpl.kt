@@ -22,20 +22,20 @@ class RolDataSourceImpl(
         }
     }
 
-    override suspend fun getRolByName(name: String): Rol? {
-        return rolesCollection.findOne(Rol::nombre eq name)
+    override suspend fun getRolById(id: String): Rol? {
+        return rolesCollection.findOne(Rol::id eq id)
     }
 
-    override suspend fun updateRolByName(name: String): Boolean {
+    override suspend fun updateRol(id: String): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteRolByName(name: String): Boolean {
-        return rolesCollection.deleteOne(filter = Rol::nombre eq name).wasAcknowledged()
+    override suspend fun deleteRolById(id: String): Boolean {
+        return rolesCollection.deleteOne(filter = Rol::id eq id).wasAcknowledged()
     }
 
     override suspend fun addPermission(rolId: String, permisoId: String): Boolean {
-        val update = Updates.addToSet(Rol::permisos.toString(), permisoId)
+        val update = Updates.addToSet(Rol::idPermisos.toString(), permisoId)
         val result = rolesCollection.updateOne(
             filter = Rol::id eq rolId,
             update = update
@@ -44,7 +44,7 @@ class RolDataSourceImpl(
     }
 
     override suspend fun removePermission(rolId: String, permisoId: String): Boolean {
-        val update = Updates.pull(Rol::permisos.toString(), permisoId)
+        val update = Updates.pull(Rol::idPermisos.toString(), permisoId)
         val result = rolesCollection.updateOne(
             filter = Rol::id eq rolId,
             update = update
@@ -53,7 +53,7 @@ class RolDataSourceImpl(
     }
 
     override suspend fun updatePermissions(rolId: String, NewPermissions: List<String>): Boolean {
-        val update = setValue(Rol::permisos, NewPermissions)
+        val update = setValue(Rol::idPermisos, NewPermissions)
         val result = rolesCollection.updateOne(
             filter = Rol::id eq rolId,
             update = update

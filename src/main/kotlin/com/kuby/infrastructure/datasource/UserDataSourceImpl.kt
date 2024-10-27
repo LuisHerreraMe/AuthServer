@@ -56,7 +56,7 @@ class UserDataSourceImpl(
     }
 
     override suspend fun addPermission(rolId: String, permisoId: String): Boolean {
-        val update = Updates.addToSet(Rol::permisos.toString(), permisoId)
+        val update = Updates.addToSet(Rol::idPermisos.toString(), permisoId)
         val result = users.updateOne(
             filter = Rol::id eq rolId,
             update = update
@@ -65,7 +65,7 @@ class UserDataSourceImpl(
     }
 
     override suspend fun removePermission(rolId: String, permisoId: String): Boolean {
-        val update = Updates.pull(Rol::permisos.toString(), permisoId)
+        val update = Updates.pull(Rol::idPermisos.toString(), permisoId)
         val result = users.updateOne(
             filter = Rol::id eq rolId,
             update = update
@@ -74,7 +74,7 @@ class UserDataSourceImpl(
     }
 
     override suspend fun updatePermissions(rolId: String, NewPermissions: List<String>): Boolean {
-        val update = setValue(Rol::permisos, NewPermissions)
+        val update = setValue(Rol::idPermisos, NewPermissions)
         val result = users.updateOne(
             filter = Rol::id eq rolId,
             update = update
