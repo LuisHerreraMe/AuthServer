@@ -54,4 +54,7 @@ dependencies {
 
     // Dependencia CORS
     implementation("io.ktor:ktor-server-cors:2.0.0")
+
+    implementation("org.simplejavamail:simple-java-mail:8.0.0")
+
 }

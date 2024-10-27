@@ -1,10 +1,12 @@
 import com.kuby.domain.empresa.model.Empresa
 import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
+import com.mongodb.client.model.Filters
 import org.bson.conversions.Bson
 import org.litote.kmongo.combine
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
+import org.litote.kmongo.regex
 import org.litote.kmongo.setValue
 
 class EmpresaDataSourceImpl(
@@ -13,9 +15,20 @@ class EmpresaDataSourceImpl(
 
     private val empresas = database.getCollection<Empresa>()
 
+    override suspend fun getEmpresa(): List<Empresa?> {
+        return empresas.find().toList()
+    }
+
     override suspend fun getEmpresaById(id: String): Empresa? {
         return empresas.findOne(Empresa::id eq id)
     }
+
+
+    override suspend fun getEmpresaByName(nombre: String): List<Empresa> {
+        val filtro = Filters.regex("nombre", ".*$nombre.*", "i")
+        return empresas.find(filtro).toList()
+    }
+
 
     override suspend fun saveEmpresa(empresa: Empresa): Boolean {
         val existingEmpresa = empresas.findOne(Empresa::nit eq empresa.nit)

@@ -1,8 +1,8 @@
 package com.kuby.plugins
 
-import com.auth0.jwt.JWT
-import com.auth0.jwt.algorithms.Algorithm
+import com.kuby.domain.model.ApiResponseError
 import com.kuby.service.JwtService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -27,6 +27,17 @@ fun Application.configureSecurity(
             validate { credential ->
                 jwtService.customValidator(credential)
             }
+            challenge { _, _ ->
+                call.respond(
+                    status = HttpStatusCode.Unauthorized,
+                    message = ApiResponseError(
+                        statusCode = HttpStatusCode.Unauthorized.value,
+                        message = "Autenticación denegada"
+                    )
+                )
+            }
         }
+
     }
 }
+

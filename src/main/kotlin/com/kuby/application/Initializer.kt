@@ -5,6 +5,7 @@ import com.kuby.domain.rol_permiso.model.Permiso
 import com.kuby.domain.rol_permiso.model.Rol
 import com.kuby.domain.rol_permiso.repository.PermisoDataSource
 import com.kuby.domain.rol_permiso.repository.RolDataSource
+import com.kuby.util.enviarCorreoPersonalizado
 import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.inject
 import java.time.LocalDateTime
@@ -43,4 +44,23 @@ fun initializeDefaultRolesAndPermissions() = runBlocking {
     roles.forEach { rol ->
         rolDataSource.createRol(rol)
     }
+
+    try {
+        val destinatario = "herreramedinaluisdavid54@gmail.com"
+        val asunto = "Roles y Permisos Inicializados"
+        val plantillaRuta = "src/main/kotlin/com/kuby/resources/templates/correo_plantilla.html"
+
+        val variables = mapOf(
+            "titulo" to "Notificación de Inicialización",
+            "nombreCliente" to "Juan Pérez",
+            "mensaje" to "Los roles y permisos por defecto se han inicializado correctamente.",
+            "fecha" to LocalDateTime.now().toString()
+        )
+
+        enviarCorreoPersonalizado(destinatario, asunto, plantillaRuta, variables)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        println("Error al enviar el correo de inicialización.")
+    }
+
 }
