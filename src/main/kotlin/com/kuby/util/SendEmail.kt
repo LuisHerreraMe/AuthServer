@@ -18,10 +18,8 @@ suspend fun enviarCorreoPersonalizado(
     val username = System.getenv("EMAIL")
     val password = System.getenv("EMAIL_PASS")
 
-    // Cargar y personalizar el contenido de la plantilla
-    val cuerpoHtml = LoadMailTemplate(plantillaRuta, variables)
+    val cuerpoHtml = loadMailTemplate(plantillaRuta, variables)
 
-    // Configuración del correo
     val props = System.getProperties().apply {
         put("mail.smtp.host", "smtp.gmail.com")
         put("mail.smtp.port", "587")
