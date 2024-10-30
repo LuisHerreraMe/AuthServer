@@ -15,8 +15,8 @@ suspend fun enviarCorreoPersonalizado(
     variables: Map<String, String>
 ) {
 
-    val username = "theluisda99@gmail.com"
-    val password = "vrzg lyim lvzz wqas"
+    val username = System.getenv("EMAIL")
+    val password = System.getenv("EMAIL_PASS")
 
     // Cargar y personalizar el contenido de la plantilla
     val cuerpoHtml = LoadMailTemplate(plantillaRuta, variables)
