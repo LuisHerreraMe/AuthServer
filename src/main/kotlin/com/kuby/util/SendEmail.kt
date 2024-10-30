@@ -16,7 +16,7 @@ suspend fun enviarCorreoPersonalizado(
 ) {
 
     val username = System.getenv("EMAIL")
-    val password = System.getenv("EMAIL_PASS")
+    val password = System.getenv("EMAIL_PASS1")
 
     val cuerpoHtml = loadMailTemplate(plantillaRuta, variables)
 

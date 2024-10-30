@@ -1,27 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Registro en ASTEC</title>
     <style>
-        /* Estilos de ejemplo */
-        body { font-family: Arial, sans-serif; }
-        .header { background-color: #4CAF50; color: white; padding: 10px; text-align: center; }
-        .content { padding: 20px; }
-        .footer { background-color: #f1f1f1; color: #333; padding: 10px; text-align: center; font-size: 12px; }
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+          overflow: hidden; /* Evita el scroll durante la animación de confeti */
+        }
+        .container {
+          max-width: 600px;
+          margin: 20px auto;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          color: #333;
+          position: relative; /* Para el posicionamiento del confeti */
+          overflow: hidden; /* Asegura que el confeti no salga del contenedor */
+        }
+        .header {
+          text-align: center;
+          padding: 20px;
+        }
+        .header img {
+          width: 120px;
+          margin-bottom: 20px;
+        }
+        .content {
+          text-align: center;
+          padding: 10px;
+        }
+        .content h2 {
+          font-size: 22px;
+          color: #333;
+          margin: 10px 0;
+        }
+        .content p {
+          font-size: 16px;
+          line-height: 1.5;
+          color: #555;
+          margin: 5px 0;
+        }
+        .content .highlight {
+          color: #4CAF50;
+          font-weight: bold;
+        }
+        .transaction-info {
+          margin: 20px 0;
+          text-align: left;
+        }
+        .transaction-info p {
+          font-size: 14px;
+          margin: 5px 0;
+        }
+        .footer {
+          text-align: center;
+          font-size: 12px;
+          color: #999;
+          padding: 10px 0;
+          border-top: 1px solid #ddd;
+          margin-top: 20px;
+        }
+        /* Estilos del confeti */
+        .confetti {
+          position: absolute; /* Cambia a absoluto para el contenedor */
+          top: -10px; /* Comienza justo encima del contenedor */
+          width: 15px; /* Tamaño del confeti */
+          height: 10px; /* Tamaño del confeti */
+          opacity: 0;
+          pointer-events: none;
+          animation: fall linear forwards; /* Solo caída vertical */
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /* Forma cuadrada para el confeti */
+          border-radius: 3px; /* Bordes redondeados para darle un efecto más suave */
+        }
+        @keyframes fall {
+          0% {
+            opacity: 1;
+            transform: translateY(0) translateX(0); /* Comienza en su posición original */
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(100vh) translateX(var(--x)); /* Caer hasta el fondo del contenedor y moverse lateralmente */
+          }
+        }
     </style>
 </head>
 <body>
-<div class="header">
-    <h1>{{titulo}}</h1>
+<div class="container">
+    <div class="header">
+        <img src="https://i.ibb.co/2n2wNSS/logo-sidebar.png" alt="ASTEC Logo">
+    </div>
+    <div class="content">
+        <h2>¡Hola, {{nombreCliente}}!</h2>
+        <p>Gracias por registrarte en ASTEC. Aquí están los detalles de tu cuenta:</p>
+        <div class="transaction-info">
+            <p>Estado de Registro: <span class="highlight">Pendiente de Confirmación</span></p>
+            <p>Nombre de Usuario: <span class="highlight">{{nombreCliente}}</span></p>
+            <p>Fecha de Registro: <span class="highlight">{{fecha}}</span></p>
+        </div>
+        <p>Para confirmar tu registro, haz clic en el siguiente enlace:</p>
+        <p><a href="[Enlace de Confirmación]" style="color: #4CAF50; text-decoration: none;">Confirmar mi cuenta</a></p>
+        <p>Si no realizaste esta solicitud, ignora este correo.</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 ASTEC. Todos los derechos reservados.</p>
+    </div>
 </div>
-<div class="content">
-    <p>Estimado {{nombreCliente}},</p>
-    <p>{{mensaje}}</p>
-    <p>Fecha de inicialización: {{fecha}}</p>
-</div>
-<div class="footer">
-    <p>Este es un mensaje generado automáticamente. No responda a este correo.</p>
-</div>
+
+<script>
+    // Función para generar confeti
+    function createConfetti() {
+      const container = document.querySelector('.container'); // Seleccionar el contenedor
+      const containerRect = container.getBoundingClientRect(); // Obtener dimensiones del contenedor
+
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        // Generar posición aleatoria dentro del contenedor
+        const randomX = Math.random() * (containerRect.width - 15); // Ancho del contenedor menos el tamaño del confeti
+        confetti.style.left = `${randomX}px`; // Posición horizontal aleatoria
+        confetti.style.backgroundColor = getRandomColor();
+
+        // Añadir variación aleatoria en el movimiento lateral
+        const xMovement = (Math.random() * 60 - 30); // Movimiento lateral aleatorio
+        confetti.style.setProperty("--x", `${xMovement}vw`);
+
+        // Aleatorizar la duración de la caída
+        const fallDuration = Math.random() * 2 + 3; // Entre 3 y 5 segundos
+        confetti.style.animationDuration = `${fallDuration}s`;
+
+        container.appendChild(confetti); // Agregar confeti al contenedor
+
+        // Remover confeti después de la animación
+        confetti.addEventListener("animationend", () => {
+          confetti.remove();
+        });
+      }
+    }
+
+    // Función para obtener un color aleatorio
+    function getRandomColor() {
+      const colors = ["#FFC107", "#FF5722", "#4CAF50", "#2196F3", "#E91E63", "#9C27B0"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Activar confeti cuando se carga la página
+    window.addEventListener("load", () => {
+      createConfetti();
+      // Detener la caída de confeti después de 5 segundos
+      setTimeout(() => {
+        const confettiElements = document.querySelectorAll('.confetti');
+        confettiElements.forEach(confetti => confetti.remove());
+      }, 5000); // Cambia este valor para ajustar el tiempo
+    });
+</script>
 </body>
 </html>

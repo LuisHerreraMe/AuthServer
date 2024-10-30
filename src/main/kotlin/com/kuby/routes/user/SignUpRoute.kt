@@ -5,6 +5,7 @@ import com.kuby.domain.user.model.LoginRequest
 import com.kuby.domain.user.model.User
 import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.service.JwtService
+import com.kuby.util.enviarCorreoPersonalizado
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -60,15 +61,34 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.saveUserToDatabase(
 ) {
     val user = userRequest.toModel()
     val response = userDataSource.saveUserInfo(user)
-    val foundUser = user.emailAddress?.let { userDataSource.getUserInfoByEmail(it) }
-    val tokenId = user.emailAddress?.let {
+    val foundUser = user.emailAddress.let { userDataSource.getUserInfoByEmail(it) }
+    val tokenId = user.emailAddress.let {
         user.password?.let { it1 ->
             LoginRequest(
-            emailAddress = it,
-            password = it1
-        )
+                emailAddress = it,
+                password = it1
+            )
         }
     }
+
+    try {
+        val destinatario = user.emailAddress
+        val asunto = "¡Bienvenido a la familia ASTEC!"
+        val plantillaRuta = "src/main/kotlin/com/kuby/resources/templates/correo_plantilla.html"
+
+        val variables = mapOf(
+            "titulo" to "Bienvenido",
+            "nombreCliente" to "${user.name} ${user.lastName}",
+            "mensaje" to "Los roles y permisos por defecto se han inicializado correctamente.",
+            "fecha" to user.createdAt.toString()
+        )
+
+        enviarCorreoPersonalizado(destinatario, asunto, plantillaRuta, variables)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        println("Error al enviar el correo de inicialización.")
+    }
+
     return if (response && tokenId != null) {
         val token: String? = jwtService.createJwtToken(tokenId)
         token?.let {
