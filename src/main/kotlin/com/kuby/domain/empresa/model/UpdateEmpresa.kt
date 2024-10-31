@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
 @Serializable
-data class UpdateEmpresa (
+data class UpdateEmpresa(
     val nombre: String,
     val nit: String,
     val logo: String,

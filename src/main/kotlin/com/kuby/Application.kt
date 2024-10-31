@@ -12,6 +12,7 @@ fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
+
 fun Application.module() {
     val jwtService = JwtService(this)
     configureCors()

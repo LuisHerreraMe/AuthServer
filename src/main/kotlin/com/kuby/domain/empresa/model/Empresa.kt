@@ -4,17 +4,19 @@ import com.kuby.util.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
 import org.bson.types.ObjectId
 import java.time.LocalDateTime
+import java.util.*
 
 @Serializable
-data class Empresa (
+data class Empresa(
     val id: String = ObjectId().toString(),
     val nombre: String,
     val nit: String,
     val logo: String,
-    val contacto: String, @Serializable(with = LocalDateTimeSerializer::class)
+    val contacto: String,
+    @Serializable(with = LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime?= null,
     @Serializable(with = LocalDateTimeSerializer::class)
-    val updatedAt: LocalDateTime?= null
+    val updatedAt: LocalDateTime?= null,
 
     )
 

@@ -1,6 +1,6 @@
 package com.kuby.routes.empresa
 
-import com.kuby.domain.empresa.model.Empresa
+import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.model.ApiResponseError
 import com.kuby.util.Permissions
@@ -14,16 +14,18 @@ import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import java.time.LocalDateTime
 
-fun Route.saveEmpresaRoute(
+fun Route.updateEmpresaRoute(
     empresaDataSource: EmpresaDataSource
 ) {
     authenticate("another-auth"){
-        post() {
+        put("/{id}") {
 
             try {
-                val empresaRequest = call.receive<Empresa>()
+                val id: String = call.parameters["id"].toString()
+                val empresaRequest = call.receive<UpdateEmpresa>()
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
                     saveEmpresaToDatabase(
+                        id,
                         empresaRequest,
                         empresaDataSource
                     )
@@ -50,7 +52,7 @@ fun Route.saveEmpresaRoute(
     }
 }
 
-private fun Empresa.toModel(): Empresa = Empresa(
+private fun UpdateEmpresa.toModel(): UpdateEmpresa = UpdateEmpresa(
     nombre = this.nombre,
     nit = this.nit,
     logo = this.logo,
@@ -59,11 +61,12 @@ private fun Empresa.toModel(): Empresa = Empresa(
 
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.saveEmpresaToDatabase(
-    empresaRequest: Empresa,
+    id:String,
+    empresaRequest: UpdateEmpresa,
     empresaDataSource: EmpresaDataSource
 ){
     val empresa = empresaRequest.toModel()
-    val response = empresaDataSource.saveEmpresa(empresa)
+    val response = empresaDataSource.updateEmpresa(id,empresa)
     return if (response) {
         call.respond(
             status = HttpStatusCode.OK,
@@ -77,7 +80,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.saveEmpresaToDatabase
             status = HttpStatusCode.Forbidden,
             message = ApiResponseError(
                 statusCode = 403,
-                message = "Numero NIT ya esta en uso."
+                message = "Empresa no encontrada."
             )
         )
     }

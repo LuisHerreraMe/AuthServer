@@ -6,7 +6,6 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.combine
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
-import org.litote.kmongo.regex
 import org.litote.kmongo.setValue
 
 class EmpresaDataSourceImpl(
@@ -41,21 +40,24 @@ class EmpresaDataSourceImpl(
     }
 
     override suspend fun deleteEmpresa(id: String): Boolean {
-        return empresas.deleteOne(Empresa::id eq id).wasAcknowledged()
+        val deleteResult = empresas.deleteOne(Empresa::id eq id)
+        return deleteResult.deletedCount > 0
     }
 
     override suspend fun updateEmpresa(id: String, updateEmpresa: UpdateEmpresa): Boolean {
         val updates = mutableListOf<Bson>()
 
-        updateEmpresa.nombre.let { updates.add(setValue(Empresa::nombre, it)) }
-        updateEmpresa.nit.let { updates.add(setValue(Empresa::nit, it)) }
-        updateEmpresa.logo.let { updates.add(setValue(Empresa::logo, it)) }
-        updateEmpresa.contacto.let { updates.add(setValue(Empresa::contacto, it)) }
+        updateEmpresa.nombre?.let { updates.add(setValue(Empresa::nombre, it)) }
+        updateEmpresa.nit?.let { updates.add(setValue(Empresa::nit, it)) }
+        updateEmpresa.logo?.let { updates.add(setValue(Empresa::logo, it)) }
+        updateEmpresa.contacto?.let { updates.add(setValue(Empresa::contacto, it)) }
 
         return if (updates.isNotEmpty()) {
-            empresas.updateOne(Empresa::id eq id, combine(updates)).wasAcknowledged()
+            // Ejecuta la actualización y verifica si se encontró y actualizó un documento
+            val result = empresas.updateOne(Empresa::id eq id, combine(updates))
+            result.matchedCount > 0 && result.wasAcknowledged()
         } else {
-            false // No fields to update
+            false // No hay campos para actualizar
         }
     }
 }

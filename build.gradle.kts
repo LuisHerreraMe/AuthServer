@@ -4,6 +4,8 @@ val logbackVersion: String by project
 val koinVersion: String by project
 val KMongoVersion: String by project
 
+
+
 plugins {
     kotlin("jvm") version "1.9.20"
     id("io.ktor.plugin") version "2.3.6"
@@ -24,10 +26,15 @@ tasks.create("stage"){
 
 repositories {
     mavenCentral()
-    maven{url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")}
+    maven{
+        url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+    }
+
 }
 
 dependencies {
+
+
     implementation("io.ktor:ktor-server-auth-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt-jvm:$ktorVersion")
@@ -56,5 +63,5 @@ dependencies {
     implementation("io.ktor:ktor-server-cors:2.0.0")
 
     implementation("org.simplejavamail:simple-java-mail:8.0.0")
-
 }
+

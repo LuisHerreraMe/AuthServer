@@ -3,9 +3,7 @@ package com.kuby.plugins
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.model.EndPoint
 import com.kuby.domain.user.repository.UserDataSource
-import com.kuby.routes.empresa.getEmpresaByNameRoute
-import com.kuby.routes.empresa.getEmpresaRoute
-import com.kuby.routes.empresa.saveEmpresaRoute
+import com.kuby.routes.empresa.*
 import com.kuby.routes.user.*
 import com.kuby.service.JwtService
 import io.ktor.server.application.*
@@ -34,6 +32,8 @@ fun Application.configureRouting(
             getEmpresaByNameRoute(empresaDataSource)
             getEmpresaRoute(empresaDataSource)
             saveEmpresaRoute(empresaDataSource)
+            deleteEmpresaRoute(empresaDataSource)
+            updateEmpresaRoute(empresaDataSource)
         }
 
 
