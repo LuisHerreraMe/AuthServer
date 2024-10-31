@@ -15,6 +15,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
+import java.time.LocalDateTime
 
 fun Route.saveEmpresaRoute(
     empresaDataSource: EmpresaDataSource
@@ -56,7 +57,9 @@ private fun Empresa.toModel(): Empresa = Empresa(
     nombre = this.nombre,
     nit = this.nit,
     logo = this.logo,
-    contacto = this.contacto
+    contacto = this.contacto,
+    createdAt = LocalDateTime.now(),
+    updatedAt = LocalDateTime.now()
 )
 
 
