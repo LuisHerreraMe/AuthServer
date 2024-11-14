@@ -2,12 +2,14 @@ package com.kuby.di
 
 
 import EmpresaDataSourceImpl
+import SucursalDataSourceImpl
 import com.kuby.infrastructure.datasource.PermisoDataSourceImpl
 import com.kuby.infrastructure.datasource.RolDataSourceImpl
 import com.kuby.infrastructure.datasource.UserDataSourceImpl
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.rol_permiso.repository.PermisoDataSource
 import com.kuby.domain.rol_permiso.repository.RolDataSource
+import com.kuby.domain.sucursal.repocitory.SucursalDataSource
 import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.util.Constants.DATABASE_NAME
 import org.koin.dsl.module
@@ -25,4 +27,5 @@ val KoinModule = module {
     single<UserDataSource> { UserDataSourceImpl(get()) }
     single<PermisoDataSource> { PermisoDataSourceImpl(get()) }
     single<EmpresaDataSource> { EmpresaDataSourceImpl(get()) }
+    single<SucursalDataSource> { SucursalDataSourceImpl(get()) }
 }

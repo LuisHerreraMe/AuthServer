@@ -9,9 +9,9 @@ data class UpdateEmpresa(
     val nombre: String,
     val nit: String,
     val logo: String,
-    val contacto: String,
-    @Serializable(with = LocalDateTimeSerializer::class)
-    val updatedAt: LocalDateTime?= null
+    val emailAddress: String,
+    val phone: String,
+    val updatedAt: String?= null
 
     )
 

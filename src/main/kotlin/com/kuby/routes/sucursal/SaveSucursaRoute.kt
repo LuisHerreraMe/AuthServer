@@ -1,8 +1,9 @@
-package com.kuby.routes.empresa
+package com.kuby.routes.sucursal
 
-import com.kuby.domain.empresa.model.Empresa
-import com.kuby.domain.empresa.repocitory.EmpresaDataSource
+
 import com.kuby.domain.model.ApiResponseError
+import com.kuby.domain.sucursal.model.Sucursal
+import com.kuby.domain.sucursal.repocitory.SucursalDataSource
 import com.kuby.util.Permissions
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -14,18 +15,18 @@ import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import java.time.LocalDateTime
 
-fun Route.saveEmpresaRoute(
-    empresaDataSource: EmpresaDataSource
+fun Route.saveSucursalRoute(
+    sucursalDataSource: SucursalDataSource
 ) {
     authenticate("another-auth"){
         post() {
 
             try {
-                val empresaRequest = call.receive<Empresa>()
+                val sucursalRequest = call.receive<Sucursal>()
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
                     saveEmpresaToDatabase(
-                        empresaRequest,
-                        empresaDataSource
+                        sucursalRequest,
+                        sucursalDataSource
                     )
                 } else{
                     call.respond(
@@ -50,23 +51,23 @@ fun Route.saveEmpresaRoute(
     }
 }
 
-private fun Empresa.toModel(): Empresa = Empresa(
+private fun Sucursal.toModel(): Sucursal = Sucursal(
     nombre = this.nombre,
-    nit = this.nit,
-    logo = this.logo,
-    emailAddress = this.emailAddress,
+    idEmpresa = this.idEmpresa,
     phone = this.phone,
+    direccion = this.direccion,
+    municipio = this.municipio,
     createdAt = LocalDateTime.now(),
     updatedAt = LocalDateTime.now()
 )
 
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.saveEmpresaToDatabase(
-    empresaRequest: Empresa,
-    empresaDataSource: EmpresaDataSource
+    sucursalRequest: Sucursal,
+    sucursalDataSource: SucursalDataSource
 ){
-    val empresa = empresaRequest.toModel()
-    val response = empresaDataSource.saveEmpresa(empresa)
+    val sucursal = sucursalRequest.toModel()
+    val response = sucursalDataSource.saveSucursal(sucursal)
     return if (response) {
         call.respond(
             status = HttpStatusCode.OK,

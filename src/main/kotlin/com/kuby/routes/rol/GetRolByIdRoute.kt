@@ -1,8 +1,12 @@
-package com.kuby.routes.empresa
+package com.kuby.routes.rol
 
 import com.kuby.domain.empresa.model.Empresa
+import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
+import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
+import com.kuby.domain.rol_permiso.repository.RolDataSource
+import com.kuby.service.JwtService
 import com.kuby.util.Permissions
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -12,21 +16,28 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
-import java.time.LocalDateTime
 
-fun Route.saveEmpresaRoute(
-    empresaDataSource: EmpresaDataSource
+fun Route.getRolByIdRoute(
+    rolDataSource: RolDataSource
 ) {
     authenticate("another-auth"){
-        post() {
-
+        get("/{id}"){
             try {
-                val empresaRequest = call.receive<Empresa>()
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
-                    saveEmpresaToDatabase(
-                        empresaRequest,
-                        empresaDataSource
-                    )
+                    val id: String = call.parameters["id"].toString()
+                    val empresas = rolDataSource.getRolById(id)
+                    if (empresas != null){
+                        call.respond(
+                            status = HttpStatusCode.OK,
+                            message = empresas
+                        )
+                    }else{
+                        call.respond(
+                            status = HttpStatusCode.Forbidden,
+                            message = "No existe el elemento"
+                        )
+                    }
+
                 } else{
                     call.respond(
                         status = HttpStatusCode.Forbidden,
@@ -49,44 +60,6 @@ fun Route.saveEmpresaRoute(
         }
     }
 }
-
-private fun Empresa.toModel(): Empresa = Empresa(
-    nombre = this.nombre,
-    nit = this.nit,
-    logo = this.logo,
-    emailAddress = this.emailAddress,
-    phone = this.phone,
-    createdAt = LocalDateTime.now(),
-    updatedAt = LocalDateTime.now()
-)
-
-
-private suspend fun PipelineContext<Unit, ApplicationCall>.saveEmpresaToDatabase(
-    empresaRequest: Empresa,
-    empresaDataSource: EmpresaDataSource
-){
-    val empresa = empresaRequest.toModel()
-    val response = empresaDataSource.saveEmpresa(empresa)
-    return if (response) {
-        call.respond(
-            status = HttpStatusCode.OK,
-            message = ApiResponseError(
-                statusCode = HttpStatusCode.OK.value,
-                message = "ok"
-            )
-        )
-    } else {
-        call.respond(
-            status = HttpStatusCode.Forbidden,
-            message = ApiResponseError(
-                statusCode = 403,
-                message = "Numero NIT ya esta en uso."
-            )
-        )
-    }
-}
-
-
 private fun extractPrincipalUsername(call: ApplicationCall): String? =
     call.principal<JWTPrincipal>()
         ?.payload

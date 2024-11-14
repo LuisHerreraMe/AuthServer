@@ -7,6 +7,7 @@ import org.litote.kmongo.combine
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
+import java.time.LocalDateTime
 
 class EmpresaDataSourceImpl(
     private val database: CoroutineDatabase
@@ -47,10 +48,13 @@ class EmpresaDataSourceImpl(
     override suspend fun updateEmpresa(id: String, updateEmpresa: UpdateEmpresa): Boolean {
         val updates = mutableListOf<Bson>()
 
-        updateEmpresa.nombre?.let { updates.add(setValue(Empresa::nombre, it)) }
-        updateEmpresa.nit?.let { updates.add(setValue(Empresa::nit, it)) }
-        updateEmpresa.logo?.let { updates.add(setValue(Empresa::logo, it)) }
-        updateEmpresa.contacto?.let { updates.add(setValue(Empresa::contacto, it)) }
+        updateEmpresa.nombre?.let { updates.add(setValue(UpdateEmpresa::nombre, it)) }
+        updateEmpresa.nit?.let { updates.add(setValue(UpdateEmpresa::nit, it)) }
+        updateEmpresa.logo?.let { updates.add(setValue(UpdateEmpresa::logo, it)) }
+        updateEmpresa.emailAddress?.let { updates.add(setValue(UpdateEmpresa::emailAddress, it)) }
+        updateEmpresa.phone?.let { updates.add(setValue(UpdateEmpresa::phone, it)) }
+        updateEmpresa.updatedAt?.let { updates.add(setValue(UpdateEmpresa::updatedAt, it)) }
+
 
         return if (updates.isNotEmpty()) {
             // Ejecuta la actualización y verifica si se encontró y actualizó un documento
@@ -60,4 +64,5 @@ class EmpresaDataSourceImpl(
             false // No hay campos para actualizar
         }
     }
+
 }

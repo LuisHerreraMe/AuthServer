@@ -2,8 +2,13 @@ package com.kuby.plugins
 
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.model.EndPoint
+import com.kuby.domain.rol_permiso.repository.RolDataSource
+import com.kuby.domain.sucursal.repocitory.SucursalDataSource
 import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.routes.empresa.*
+import com.kuby.routes.rol.getRolByIdRoute
+import com.kuby.routes.sucursal.getSucursalByIdEmpresaRoute
+import com.kuby.routes.sucursal.saveSucursalRoute
 import com.kuby.routes.user.*
 import com.kuby.service.JwtService
 import io.ktor.server.application.*
@@ -16,6 +21,8 @@ fun Application.configureRouting(
     routing {
         val userDataSource: UserDataSource by KoinJavaComponent.inject(UserDataSource::class.java)
         val empresaDataSource: EmpresaDataSource by KoinJavaComponent.inject(EmpresaDataSource::class.java)
+        val sucursalDataSource: SucursalDataSource by KoinJavaComponent.inject(SucursalDataSource::class.java)
+        val rolDataSource: RolDataSource by KoinJavaComponent.inject(RolDataSource::class.java)
 
         route(EndPoint.Auth.path) {
             signUpRoute(jwtService, userDataSource)
@@ -34,6 +41,16 @@ fun Application.configureRouting(
             saveEmpresaRoute(empresaDataSource)
             deleteEmpresaRoute(empresaDataSource)
             updateEmpresaRoute(empresaDataSource)
+            getEmpresaByIdRoute(empresaDataSource)
+        }
+
+        route(EndPoint.DataSucursal.path){
+            saveSucursalRoute(sucursalDataSource)
+            getSucursalByIdEmpresaRoute(sucursalDataSource)
+        }
+
+        route(EndPoint.DataRol.path){
+            getRolByIdRoute(rolDataSource)
         }
 
 

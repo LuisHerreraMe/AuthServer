@@ -56,7 +56,10 @@ private fun UpdateEmpresa.toModel(): UpdateEmpresa = UpdateEmpresa(
     nombre = this.nombre,
     nit = this.nit,
     logo = this.logo,
-    contacto = this.contacto
+    emailAddress = this.emailAddress,
+    phone = this.phone,
+    updatedAt = LocalDateTime.now().toString()
+
 )
 
 
