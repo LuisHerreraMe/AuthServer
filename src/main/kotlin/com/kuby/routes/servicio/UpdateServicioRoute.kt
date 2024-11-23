@@ -1,12 +1,10 @@
-package com.kuby.routes.empresa
+package com.kuby.routes.servicio
 
 import com.kuby.domain.empresa.model.Empresa
-import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
-import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
-import com.kuby.domain.sucursal.repocitory.SucursalDataSource
-import com.kuby.service.JwtService
+import com.kuby.domain.servicio.model.Servicio
+import com.kuby.domain.servicio.repocitory.ServicioDataSource
 import com.kuby.util.Permissions
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -16,18 +14,20 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
+import java.time.LocalDateTime
 
-fun Route.getEmpresaRoute(
-    empresaDataSource: EmpresaDataSource
+fun Route.UpdataServicioRoute(
+    servicioDataSource: ServicioDataSource
 ) {
     authenticate("another-auth"){
-        get(){
+        post() {
+
             try {
+                val servicioRequest = call.receive<Servicio>()
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
-                    val empresas = empresaDataSource.getEmpresa()
-                    call.respond(
-                        status = HttpStatusCode.OK,
-                        message = empresas
+                    saveServicioToDatabase(
+                        servicioRequest,
+                        servicioDataSource
                     )
                 } else{
                     call.respond(
@@ -38,6 +38,7 @@ fun Route.getEmpresaRoute(
                         )
                     )
                 }
+
             }catch (e: Exception){
                 call.respond(
                     status = HttpStatusCode.Forbidden,
@@ -48,6 +49,43 @@ fun Route.getEmpresaRoute(
                 )
             }
         }
+    }
+}
+
+private fun Servicio.toModel(): Servicio = Servicio(
+    id = this.id,
+    codigo = this.codigo,
+    descripcion = this.descripcion,
+    detalle = this.detalle,
+    estado = "0",
+    idSede = this.idSede,
+    fechaSolicitud = LocalDateTime.now().toString()
+
+)
+
+private suspend fun PipelineContext<Unit, ApplicationCall>.saveServicioToDatabase(
+    servicioRequest: Servicio,
+    servicioDataSource: ServicioDataSource
+){
+    val servicio = servicioRequest.toModel()
+    println(servicio)
+    val response = servicioDataSource.saveServicio(servicio)
+    return if (response) {
+        call.respond(
+            status = HttpStatusCode.OK,
+            message = ApiResponseError(
+                statusCode = HttpStatusCode.OK.value,
+                message = "ok"
+            )
+        )
+    } else {
+        call.respond(
+            status = HttpStatusCode.Forbidden,
+            message = ApiResponseError(
+                statusCode = 403,
+                message = "Numero NIT ya esta en uso."
+            )
+        )
     }
 }
 

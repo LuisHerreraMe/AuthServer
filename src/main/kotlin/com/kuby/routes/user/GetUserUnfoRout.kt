@@ -9,8 +9,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.lang.Exception
 
-fun Route.getUserRoute(
-    app: Application,
+fun Route.getUserByIdRoute(
     userDataSource: UserDataSource
 ) {
 

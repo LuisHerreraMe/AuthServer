@@ -19,6 +19,10 @@ class UserDataSourceImpl(
         return users.findOne(filter = User::id eq id)
     }
 
+    override suspend fun getUser(): List<User> {
+        return users.find().toList()
+    }
+
     override suspend fun getUserInfoByEmail(emailAddress: String): User? {
         val regex = "^${Regex.escape(emailAddress)}$".toRegex(setOf(RegexOption.IGNORE_CASE))
         return users.findOne(User::emailAddress.regex(regex))

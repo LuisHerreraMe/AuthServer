@@ -1,11 +1,14 @@
-package com.kuby.routes.empresa
+package com.kuby.routes.user
 
 import com.kuby.domain.empresa.model.Empresa
 import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
+import com.kuby.domain.servicio.repocitory.ServicioDataSource
+import com.kuby.domain.sucursal.model.SucursalReturn
 import com.kuby.domain.sucursal.repocitory.SucursalDataSource
+import com.kuby.domain.user.repository.UserDataSource
 import com.kuby.service.JwtService
 import com.kuby.util.Permissions
 import io.ktor.http.*
@@ -17,18 +20,27 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 
-fun Route.getEmpresaRoute(
-    empresaDataSource: EmpresaDataSource
+fun Route.getUserRoute(
+    userDataSource: UserDataSource
 ) {
     authenticate("another-auth"){
         get(){
             try {
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
-                    val empresas = empresaDataSource.getEmpresa()
-                    call.respond(
-                        status = HttpStatusCode.OK,
-                        message = empresas
-                    )
+                    val users = userDataSource.getUser()
+
+                    if (users!=null){
+                        call.respond(
+                            status = HttpStatusCode.OK,
+                            message = users
+                        )
+                    }else{
+                        call.respond(
+                            status = HttpStatusCode.OK,
+                            message = "null"
+                        )
+                    }
+
                 } else{
                     call.respond(
                         status = HttpStatusCode.Forbidden,

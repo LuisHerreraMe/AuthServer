@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 
 interface UserDataSource {
     suspend fun  getUserInfoById(id: String): User?
+    suspend fun  getUser():List<User>?
     suspend fun  getUserInfoByEmail(emailAddress: String): User?
     suspend fun saveUserInfo(user: User): Boolean
     suspend fun deleteUser(userId: String): Boolean

@@ -1,22 +1,22 @@
-package com.kuby.domain.user.model
+package com.kuby.domain.sucursal.model
 
 import com.kuby.util.LocalDateTimeSerializer
 import kotlinx.serialization.Serializable
+import org.bson.types.ObjectId
 import java.time.LocalDateTime
+import java.util.*
 
 @Serializable
-data class User(
-    val id: String? = null,
-    val name: String,
-    val lastName: String,
-    val DNI: String,
+data class SucursalReturn(
+    val id: String = ObjectId().toString(),
+    val idEmpresa: String,
+    val nombre: String,
     val phone: String,
+    val direccion: String,
+    val municipio: String,
+    val numeroServicio: String,
     @Serializable(with = LocalDateTimeSerializer::class)
     val createdAt: LocalDateTime?= null,
     @Serializable(with = LocalDateTimeSerializer::class)
     val updatedAt: LocalDateTime?= null,
-    val emailAddress: String,
-    val password: String? = null,
-    val profilePhoto: String? = null,
-    val idRol: List<String> = listOf()
-)
+    )

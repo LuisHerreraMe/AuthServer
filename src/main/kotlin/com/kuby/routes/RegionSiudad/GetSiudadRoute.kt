@@ -1,11 +1,11 @@
-package com.kuby.routes.empresa
+package com.kuby.routes.RegionSiudad
 
 import com.kuby.domain.empresa.model.Empresa
 import com.kuby.domain.empresa.model.UpdateEmpresa
 import com.kuby.domain.empresa.repocitory.EmpresaDataSource
 import com.kuby.domain.model.ApiResponse
 import com.kuby.domain.model.ApiResponseError
-import com.kuby.domain.sucursal.repocitory.SucursalDataSource
+import com.kuby.domain.region.repocitory.RCDataSource
 import com.kuby.service.JwtService
 import com.kuby.util.Permissions
 import io.ktor.http.*
@@ -17,14 +17,15 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 
-fun Route.getEmpresaRoute(
-    empresaDataSource: EmpresaDataSource
+fun Route.getCiudadByIdRegionRoute(
+    rcDataSource: RCDataSource
 ) {
     authenticate("another-auth"){
-        get(){
+        get("/{id}"){
             try {
+                val id: String = call.parameters["id"].toString()
                 if (extractPrincipalUsername(call)?.let { it1 -> Permissions(it1, "CREATION_SERVICES") } == true){
-                    val empresas = empresaDataSource.getEmpresa()
+                    val empresas = rcDataSource.getCiudadByIdRegion(id)
                     call.respond(
                         status = HttpStatusCode.OK,
                         message = empresas
@@ -38,6 +39,7 @@ fun Route.getEmpresaRoute(
                         )
                     )
                 }
+
             }catch (e: Exception){
                 call.respond(
                     status = HttpStatusCode.Forbidden,

@@ -5,6 +5,7 @@ import com.kuby.domain.sucursal.model.UpdateSucursal
 
 interface SucursalDataSource {
     suspend fun getSucursal():List<Sucursal?>
+    suspend fun getNumeroSucursal(idEmpresa: String):Int
     suspend fun getSucursalById(id: String): Sucursal?
     suspend fun getSucursalByIdEmpresa(idEmpresa: String): List<Sucursal?>
     suspend fun getSucursalByName(nombre: String):List<Sucursal?>

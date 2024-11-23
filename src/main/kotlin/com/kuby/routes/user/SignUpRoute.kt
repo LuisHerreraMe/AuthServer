@@ -51,7 +51,8 @@ private fun User.toModel(): User =
         createdAt = LocalDateTime.now(),
         updatedAt = LocalDateTime.now(),
         password = this.password,
-        idRol = this.idRol
+        idRol = this.idRol,
+        DNI = this.DNI
     )
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.saveUserToDatabase(

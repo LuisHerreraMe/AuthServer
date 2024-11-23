@@ -2,6 +2,7 @@ package com.kuby
 
 import com.kuby.plugins.configureCors
 import com.kuby.application.initializeDefaultRolesAndPermissions
+import com.kuby.application.initializeRegionsAndCities
 import com.kuby.plugins.*
 import com.kuby.service.JwtService
 import io.ktor.server.application.*
@@ -21,6 +22,7 @@ fun Application.module() {
     configureSecurity(jwtService)
     configureRouting(jwtService)
     initializeDefaultRolesAndPermissions()
+    initializeRegionsAndCities()
 }
 
 

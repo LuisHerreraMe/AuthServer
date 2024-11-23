@@ -1,5 +1,6 @@
 
 
+import com.kuby.domain.empresa.model.Empresa
 import com.kuby.domain.sucursal.model.Sucursal
 import com.kuby.domain.sucursal.model.UpdateSucursal
 import com.kuby.domain.sucursal.repocitory.SucursalDataSource
@@ -17,6 +18,11 @@ class SucursalDataSourceImpl(
     override suspend fun getSucursal(): List<Sucursal?> {
         return sucursales.find().toList()
     }
+
+    override suspend fun getNumeroSucursal(idEmpresa: String): Int {
+        return sucursales.countDocuments(Filters.eq("idEmpresa", idEmpresa)).toInt()
+    }
+
 
     override suspend fun getSucursalById(id: String): Sucursal? {
         return sucursales.findOne(Sucursal::id eq id)
@@ -43,7 +49,8 @@ class SucursalDataSourceImpl(
     }
 
     override suspend fun deleteSucursal(id: String): Boolean {
-        TODO("Not yet implemented")
+        val deleteResult = sucursales.deleteOne(Sucursal::id eq id)
+        return deleteResult.deletedCount > 0
     }
 
     override suspend fun updateSucursal(id: String, updateSucursal: UpdateSucursal): Boolean {
